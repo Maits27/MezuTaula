@@ -28,7 +28,7 @@ public class MySQLdb {
 
     //users taulan erabiltzaile berri bat sartu
     public void setUserInfo(String email, String password, String username) throws SQLException {
-        PreparedStatement ps = conn.prepareStatement("INSERT INTO mezutaula.users VALUES(?, ?, ?)"); //TODO SERGIO
+        PreparedStatement ps = conn.prepareStatement("INSERT INTO mezutaula.users VALUES(?, ?, ?)");
         ps.setString(1, email);
         ps.setString(2, password);
         ps.setString(3, username);
