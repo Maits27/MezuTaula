@@ -89,7 +89,7 @@ public class TestServlet extends HttpServlet {
             }
             throw new RuntimeException(e);
         }
-
+        System.out.println("<--- TestServlet <--- doGet() metodotik ateratzen");
     }
 
     @Override

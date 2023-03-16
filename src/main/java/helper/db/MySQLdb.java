@@ -38,15 +38,15 @@ public class MySQLdb {
     //users taulatik erabiltzaile baten izena atera
     public String getUsername(String email, String password) throws SQLException{
         PreparedStatement ps = conn.prepareStatement(
-                "SELECT mezutaula.username " +
+                "SELECT username " +
                         "FROM mezutaula.users " +
-                        "WHERE email like ? AND password like ?"
+                        "WHERE email = ? AND password = ?"
         );
         ps.setString(1, email);
         ps.setString(2, password);
         ResultSet rs = ps.executeQuery();
         if(rs.next()) return rs.getString(1);
-        else return "IT DOESN'T EXIST";
+        else return "";
     }
 
     //messages taulan mezu berri bat sartu
