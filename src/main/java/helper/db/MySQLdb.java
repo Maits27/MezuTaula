@@ -15,7 +15,7 @@ public class MySQLdb {
 
     public MySQLdb() throws SQLException{
         try{
-            Class.forName(this.driver).newInstance(); //TODO Nuevo
+            Class.forName(this.driver).newInstance();
             this.conn = DriverManager.getConnection(this.url,this.user,this.passwd);
             System.out.println("KONEXIOA EZARRITA DB-RA");
         }

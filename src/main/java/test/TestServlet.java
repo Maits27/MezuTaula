@@ -20,10 +20,11 @@ public class TestServlet extends HttpServlet {
 
         response.setHeader("Cache-Control", "no-cache"); //TODO es necesario?
         String type = request.getParameter("type");
-
+        int kontsulta=-1;
         try {
             MySQLdb db = new MySQLdb();
             if (type.equals("registerUser")){
+                kontsulta=0;
                 System.out.println("---> TestServlet ---> register user egiten");
 
                 String emaila = request.getParameter("email");
@@ -35,11 +36,11 @@ public class TestServlet extends HttpServlet {
                 response.setContentType("text/plain");
                 PrintWriter http_out = response.getWriter();
                 http_out.println("Datu gordeketa ondo burutu da");
-
             }else if (type.equals("getUsername")){
+                kontsulta=1;
                 System.out.println("---> TestServlet ---> get username egiten");
 
-                String emaila = request.getParameter("email"); //TODO ponia email
+                String emaila = request.getParameter("email");
                 String pasahitza = request.getParameter("password");
 
                 String username = db.getUsername(emaila, pasahitza);
@@ -79,6 +80,13 @@ public class TestServlet extends HttpServlet {
                 System.out.println("<--- TestServlet <--- doGet() metodotik ateratzen");
             }
         }catch (SQLException e) {
+            response.setContentType("text/plain");
+            PrintWriter http_out = response.getWriter();
+            if(kontsulta==0){
+                http_out.println("Erabiltzailea jada sortuta");
+            }else if(kontsulta==1){
+                http_out.println("Erabiltzailea ez da existitzen");
+            }
             throw new RuntimeException(e);
         }
 
