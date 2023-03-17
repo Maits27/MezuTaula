@@ -22,62 +22,68 @@ public class TestServlet extends HttpServlet {
         String type = request.getParameter("type");
         int kontsulta=-1;
         try {
-            MySQLdb db = new MySQLdb();
-            if (type.equals("registerUser")){
-                kontsulta=0;
-                System.out.println("---> TestServlet ---> register user egiten");
+            if(type!=null){
+                MySQLdb db = new MySQLdb();
+                if (type.equals("registerUser")){
+                    kontsulta=0;
+                    System.out.println("---> TestServlet ---> register user egiten");
 
-                String emaila = request.getParameter("email");
-                String pasahitza = request.getParameter("password");
-                String erabiltzailea = request.getParameter("username");
+                    String emaila = request.getParameter("email");
+                    String pasahitza = request.getParameter("password");
+                    String erabiltzailea = request.getParameter("username");
 
-                db.setUserInfo(emaila, pasahitza,erabiltzailea);
+                    db.setUserInfo(emaila, pasahitza,erabiltzailea);
 
-                response.setContentType("text/plain");
-                PrintWriter http_out = response.getWriter();
-                http_out.println("Datu gordeketa ondo burutu da");
-            }else if (type.equals("getUsername")){
-                kontsulta=1;
-                System.out.println("---> TestServlet ---> get username egiten");
-
-                String emaila = request.getParameter("email");
-                String pasahitza = request.getParameter("password");
-
-                String username = db.getUsername(emaila, pasahitza);
-
-                response.setContentType("text/plain");
-                PrintWriter http_out = response.getWriter();
-                http_out.println(username);
-            }else if (type.equals("registerMessage")){
-                System.out.println("---> TestServlet ---> register message egiten");
-
-                String erabiltzailea = request.getParameter("username");
-                String mezua = request.getParameter("message");
-
-                db.setMessageInfo(mezua, erabiltzailea);
-
-                response.setContentType("text/plain");
-                PrintWriter http_out = response.getWriter();
-                http_out.println("Datu gordeketa ondo burutu da");
-            }else if(type.equals("getAllMessages")){
-                System.out.println("---> TestServlet ---> get all messages egiten");
-
-                ArrayList<MessageInfo> mezuak = db.getAllMessages();
-                if(request.getParameter("format").equals("json")){
-                    System.out.println("---> TestServlet ---> get all messages egiten (JSON)");
-                    String json = new Gson().toJson(mezuak);
-
-                    response.setContentType("application/json");
+                    response.setContentType("text/plain");
                     PrintWriter http_out = response.getWriter();
-                    http_out.println(json);
-                }else if(request.getParameter("format").equals("html")){
-                    System.out.println("---> TestServlet ---> get all messages egiten (HTML)");
-                    request.setAttribute("mezu", mezuak);
+                    http_out.println("Datu gordeketa ondo burutu da");
+                }else if (type.equals("getUsername")){
+                    kontsulta=1;
+                    System.out.println("---> TestServlet ---> get username egiten");
 
-                    RequestDispatcher rd = request.getRequestDispatcher("/jsp/mezuak.jsp");
-                    rd.forward(request, response); //pasatu kontrola jsp-ra baina servlet-a bere exekuzioa amaitzen du
+                    String emaila = request.getParameter("email");
+                    String pasahitza = request.getParameter("password");
+
+                    String username = db.getUsername(emaila, pasahitza);
+
+                    response.setContentType("text/plain");
+                    PrintWriter http_out = response.getWriter();
+                    http_out.println(username);
+                }else if (type.equals("registerMessage")){
+                    System.out.println("---> TestServlet ---> register message egiten");
+
+                    String erabiltzailea = request.getParameter("username");
+                    String mezua = request.getParameter("message");
+
+                    db.setMessageInfo(mezua, erabiltzailea);
+
+                    response.setContentType("text/plain");
+                    PrintWriter http_out = response.getWriter();
+                    http_out.println("Datu gordeketa ondo burutu da");
+                }else if(type.equals("getAllMessages")){
+                    System.out.println("---> TestServlet ---> get all messages egiten");
+
+                    ArrayList<MessageInfo> mezuak = db.getAllMessages();
+                    if(request.getParameter("format").equals("json")){
+                        System.out.println("---> TestServlet ---> get all messages egiten (JSON)");
+                        String json = new Gson().toJson(mezuak);
+
+                        response.setContentType("application/json");
+                        PrintWriter http_out = response.getWriter();
+                        http_out.println(json);
+                    }else if(request.getParameter("format").equals("html")){
+                        System.out.println("---> TestServlet ---> get all messages egiten (HTML)");
+                        request.setAttribute("mezu", mezuak);
+
+                        RequestDispatcher rd = request.getRequestDispatcher("/jsp/viewMessages.jsp");
+                        rd.forward(request, response); //pasatu kontrola jsp-ra baina servlet-a bere exekuzioa amaitzen du
+                    }
+                    System.out.println("<--- TestServlet <--- doGet() metodotik ateratzen");
                 }
-                System.out.println("<--- TestServlet <--- doGet() metodotik ateratzen");
+            }else{
+                response.setContentType("text/plain");
+                PrintWriter http_out = response.getWriter();
+                http_out.println("Sartu type parametroa URI-an");
             }
         }catch (SQLException e) {
             response.setContentType("text/plain");

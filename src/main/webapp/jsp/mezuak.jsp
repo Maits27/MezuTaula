@@ -18,9 +18,17 @@
 
 <html>
 <head>
-    <title>Title</title>
+    <title>View Messages</title>
+    <link href="/MezuTaula/css/styleSheet.css" rel="stylesheet"/>
 </head>
 <body>
+<table id="MezuTaula">
+    <tr>
+        <th>Username</th>
+        <th>Message</th>
+    </tr>
+    <tbody></tbody>
+</table>
 <ul>
     <% ArrayList<MessageInfo> mezuak = (ArrayList<MessageInfo>) request.getAttribute("mezu");
         if(mezuak!=null){
