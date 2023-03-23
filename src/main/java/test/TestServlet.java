@@ -14,6 +14,10 @@ import java.util.ArrayList;
 
 //@WebServlet(name = "TestServlet", value = "/TestServlet")
 public class TestServlet extends HttpServlet {
+    private MySQLdb mySQLdb;
+    public void init() throws ServletException{
+            mySQLdb =  new MySQLdb();
+    }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("---> TestServlet ---> doGet() metodoan sartzen");

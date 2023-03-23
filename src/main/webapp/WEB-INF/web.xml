@@ -4,6 +4,18 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
+    <welcome-file-list>
+        <welcome-file>/jsp/loginForm.jsp</welcome-file>
+    </welcome-file-list>
+
+    <session-config>
+        <session-timeout>1</session-timeout> <!--1 minutu saioa iraun-->
+    </session-config>
+
+    <listener>
+        <listener-class>nirepaketea.MySessionListener</listener-class>
+    </listener>
+
     <servlet-mapping>
         <servlet-name>TestServlet</servlet-name>
         <url-pattern>/servlet/Test</url-pattern>
@@ -11,5 +23,23 @@
     <servlet>
         <servlet-name>TestServlet</servlet-name>
         <servlet-class>test.TestServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/servlet/Login</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>nirepaketea.LoginServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>MainServlet</servlet-name>
+        <url-pattern>/servlet/Main</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>MainServlet</servlet-name>
+        <servlet-class>nirepaketea.MainServlet</servlet-class>
     </servlet>
 </web-app>
