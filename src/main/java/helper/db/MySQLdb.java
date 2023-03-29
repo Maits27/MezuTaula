@@ -52,8 +52,8 @@ public class MySQLdb {
             ps.setString(1, email);
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
-            if(rs.next()) return rs.getString(1);
-            else return "";
+            if(rs.next()) return rs.getString("username");
+            else return null;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

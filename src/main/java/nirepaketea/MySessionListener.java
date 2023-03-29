@@ -48,16 +48,15 @@ public class MySessionListener implements ServletContextListener, HttpSessionLis
         Date data = new Date();
 
         HttpSession session = se.getSession();
-        //String sessionID = session.getId();
-        String username = session.getAttribute("username").toString();
-        System.out.println("\tGetting username: " + username);
+        String sessionID = session.getId();
+        System.out.println("\tGetting user sessionID: " + sessionID);
 
         ServletContext context = session.getServletContext();
         HashMap<String, String> loggedinUsers = (HashMap) context.getAttribute("loggedin_users");
         System.out.println("\tLoggedin users: " + loggedinUsers.toString());
 
-        for(Map.Entry<String, String> entry : loggedinUsers.entrySet()) { //TODO q es exactamente????
-            if(entry.getValue().equals(username)) {
+        for(Map.Entry<String, String> entry : loggedinUsers.entrySet()) {
+            if(entry.getValue().equals(sessionID)) {
                 loggedinUsers.remove(entry.getKey());
                 System.out.println("\tRemoving " + entry.getKey() + " from loggedin users");
                 context.setAttribute("loggedin_users", loggedinUsers);
@@ -65,7 +64,6 @@ public class MySessionListener implements ServletContextListener, HttpSessionLis
                 break;
             }
         }
-        context.setAttribute("loggedin_users", loggedinUsers); //TODO no se si hace falta
         System.out.println(data_formatua.format(data));
     }
 

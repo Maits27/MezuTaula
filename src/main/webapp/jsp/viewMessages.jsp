@@ -22,6 +22,21 @@
     </head>
 
     <body>
+    <section><font color="#f5f5dc">Zure erabiltzailea <%=session.getAttribute("username")%> da.</font></section>
+        <section>
+            <h3>Aktiboak dauden erabiltzaileen zerrenda: </h3>
+            <table id="Active users">
+                <tr>
+                    <th>Username</th>
+                </tr>
+                <%
+                    for(Map.Entry<String, String> entry : userList.entrySet()) {%>
+                <tr>
+                    <td><%= entry.getKey() %></td>
+                </tr>
+                <% }%>
+            </table>
+        </section>
 
         <section>
             <table id="MezuTaula">
@@ -39,21 +54,6 @@
             </table>
         </section>
 
-        <section>
-            <table id="Users">
-                <tr>
-                    <th>Username</th>
-                </tr>
-                <% if(userList!=null){
-                    for(int i = 0; i < userList.size(); i++) {
-                        String userInfo = userList.get(session.getId()); %>
-                <tr>
-                    <td><%= userInfo %></td>
-                </tr>
-                <% }
-                } %>
-            </table>
-        </section>
 
         <br>
         <div style="text-align: center">

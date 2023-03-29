@@ -37,7 +37,7 @@ public class MainServlet extends HttpServlet {
             if(logout.equals("true")){
                 System.out.println("---> MainServlet ---> User log out: redirecting to login form");
                 HttpSession session = request.getSession(false);
-                session.invalidate(); //saioa amaitu
+                if (session!=null){session.invalidate();} //TODO saioa amaitu
 
                 boolean log_out=true;
                 request.setAttribute("log_out", log_out);

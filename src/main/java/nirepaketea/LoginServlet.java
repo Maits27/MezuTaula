@@ -46,25 +46,29 @@ public class LoginServlet extends HttpServlet {
                                                                     // True: ez bada existitzen sortu
                                                                     // False: ez bada existitzen EZ sortu
                 String sessionID = session.getId();
-                session.setAttribute("username",username);
+                System.out.println("\tUser session for " + username + ": " + sessionID);
+                session.setAttribute("username",  username); // saioari username atributu bezela gehitu
 
-                ServletContext context = request.getServletContext();
-                System.out.print("Getting loggedin userlist from context: ");
+                System.out.print("\tGetting loggedin userlist from servlet context: ");
+                ServletContext context = request.getServletContext(); // testuingurua (saio guztiek atzipena dute)
                 HashMap<String, String> loggedinUsers = (HashMap) context.getAttribute("loggedin_users");
 
                 if(loggedinUsers == null) { // zerbitzaria abiarazi berri bada (ez erabiltzailerik logeatu)
                     System.out.println("list is empty");
                     loggedinUsers = new HashMap();
-                    loggedinUsers.put(sessionID, username);
+                    loggedinUsers.put(username, sessionID);
                 } else { // zerbitzarian erabiltzaileak daude jada
-                    if(!loggedinUsers.containsKey(sessionID)) {
+                    if(!loggedinUsers.containsKey(username)) {
                         System.out.println(username + " is not in the list");
-                        loggedinUsers.put(sessionID, username);
+                        loggedinUsers.put(username, sessionID);
                     } else {
                         System.out.println(username + " is already in the list");
                     }
                 }
-                context.setAttribute("loggedin_users", loggedinUsers); //Aldatu logedinUsers
+
+                // zerrenda testuinguruan gehitu atributu bezela
+                context.setAttribute("loggedin_users", loggedinUsers);
+                System.out.println("\tLoggedin users: " + loggedinUsers.toString());
 
                 System.out.println("---> LoginServlet ---> redirecting to MainServlet");
                 RequestDispatcher rd = context.getNamedDispatcher("MainServlet"); //web.xml fitxategiko <servlet-name>
