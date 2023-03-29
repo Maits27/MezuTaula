@@ -10,7 +10,9 @@
 
 <%@ page import="java.util.*,helper.info.*" %>
 
-<%  ArrayList<MessageInfo> messageList = (ArrayList) request.getAttribute("mezu"); %>
+<%  ArrayList<MessageInfo> messageList = (ArrayList) request.getAttribute("mezu");
+    ServletContext context = request.getServletContext();
+    HashMap<String, String> userList = (HashMap<String, String>) context.getAttribute("loggedin_users"); %>
 
 <html>
 
@@ -37,6 +39,26 @@
             </table>
         </section>
 
+        <section>
+            <table id="Users">
+                <tr>
+                    <th>Username</th>
+                </tr>
+                <% if(userList!=null){
+                    for(int i = 0; i < userList.size(); i++) {
+                        String userInfo = userList.get(session.getId()); %>
+                <tr>
+                    <td><%= userInfo %></td>
+                </tr>
+                <% }
+                } %>
+            </table>
+        </section>
+
+        <br>
+        <div style="text-align: center">
+            <button><a href="/MezuTaula/servlet/Main?logout=true">Log Out</a></button>
+        </div>
     </body>
 
 </html>

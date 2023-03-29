@@ -2,13 +2,16 @@ package nirepaketea;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import javax.servlet.http.HttpSessionAttributeListener;
-import javax.servlet.http.HttpSessionBindingEvent;
-import javax.servlet.http.HttpSessionEvent;
-import javax.servlet.http.HttpSessionListener;
+import javax.servlet.http.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
+
+import javax.servlet.*;
+import javax.servlet.http.*;
+import javax.servlet.annotation.*;
+import java.util.HashMap;
+import java.util.Map;
 
 //@WebListener
 public class MySessionListener implements ServletContextListener, HttpSessionListener, HttpSessionAttributeListener {
@@ -43,6 +46,26 @@ public class MySessionListener implements ServletContextListener, HttpSessionLis
         /* Session is destroyed. */
         System.out.println("---> MySessionListener ---> A session is being destroyed at");
         Date data = new Date();
+
+        HttpSession session = se.getSession();
+        //String sessionID = session.getId();
+        String username = session.getAttribute("username").toString();
+        System.out.println("\tGetting username: " + username);
+
+        ServletContext context = session.getServletContext();
+        HashMap<String, String> loggedinUsers = (HashMap) context.getAttribute("loggedin_users");
+        System.out.println("\tLoggedin users: " + loggedinUsers.toString());
+
+        for(Map.Entry<String, String> entry : loggedinUsers.entrySet()) { //TODO q es exactamente????
+            if(entry.getValue().equals(username)) {
+                loggedinUsers.remove(entry.getKey());
+                System.out.println("\tRemoving " + entry.getKey() + " from loggedin users");
+                context.setAttribute("loggedin_users", loggedinUsers);
+                System.out.println("\tLoggedin users: " + loggedinUsers.toString());
+                break;
+            }
+        }
+        context.setAttribute("loggedin_users", loggedinUsers); //TODO no se si hace falta
         System.out.println(data_formatua.format(data));
     }
 

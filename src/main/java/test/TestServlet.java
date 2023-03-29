@@ -89,7 +89,7 @@ public class TestServlet extends HttpServlet {
                 PrintWriter http_out = response.getWriter();
                 http_out.println("Sartu type parametroa URI-an");
             }
-        }catch (SQLException e) {
+        }catch (Exception e) {
             response.setContentType("text/plain");
             PrintWriter http_out = response.getWriter();
             if(kontsulta==0){

@@ -27,7 +27,7 @@ public class MySQLdb {
     }
 
     //users taulan erabiltzaile berri bat sartu
-    public void setUserInfo(String email, String password, String username) throws SQLException {
+    public void setUserInfo(String email, String password, String username) {
         try {
             PreparedStatement ps = conn.prepareStatement("INSERT INTO mezutaula.users VALUES(?, ?, ?)");
             ps.setString(1, email);
@@ -73,7 +73,7 @@ public class MySQLdb {
     }
 
     //messages taulatik mezu guztiak atera
-    public ArrayList<MessageInfo> getAllMessages() throws SQLException{
+    public ArrayList<MessageInfo> getAllMessages(){
         ArrayList<MessageInfo> emaitza = new ArrayList<>();
         try {
             PreparedStatement ps = conn.prepareStatement(
