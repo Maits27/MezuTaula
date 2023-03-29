@@ -32,7 +32,7 @@
                 <%
                     for(Map.Entry<String, String> entry : userList.entrySet()) {%>
                 <tr>
-                    <td><%= entry.getKey() %></td>
+                    <td><%= entry.getValue() %></td>
                 </tr>
                 <% }%>
             </table>
