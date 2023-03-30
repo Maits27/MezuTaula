@@ -7,10 +7,14 @@
 --%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
          pageEncoding="ISO-8859-1"%>
+<%@ page session="false"%> <!--Defektuzko sesioa irekitzea ekidin-->
 
 <%@ page import="java.util.*,helper.info.*" %>
 
 <%  ArrayList<MessageInfo> messageList = (ArrayList) request.getAttribute("mezu");
+
+    HttpSession session = request.getSession();
+    String username = (String) session.getAttribute("username");
     ServletContext context = request.getServletContext();
     HashMap<String, String> userList = (HashMap<String, String>) context.getAttribute("loggedin_users"); %>
 
@@ -22,9 +26,17 @@
     </head>
 
     <body>
-    <section><font color="#f5f5dc">Zure erabiltzailea <%=session.getAttribute("username")%> da.</font></section>
         <section>
-            <h3>Aktiboak dauden erabiltzaileen zerrenda: </h3>
+            <font color="#f5f5dc">Zure erabiltzailea <%=username%> da.</font>
+        </section>
+        <section>
+            <font color="#f5f5dc">Active users:</font>
+            <%for(Map.Entry<String, String> entry : userList.entrySet()) {%>
+                <font color="#a9a9a9"><%= entry.getKey() %></font>
+            <% }%>
+        </section>
+        <section>
+            <font color="#f5f5dc">Aktiboak dauden erabiltzaileen zerrenda: </font>
             <table id="Active users">
                 <tr>
                     <th>Username</th>

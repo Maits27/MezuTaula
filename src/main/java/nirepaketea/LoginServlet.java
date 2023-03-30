@@ -14,6 +14,13 @@ import java.io.IOException;
 import java.util.HashMap;
 
 //@WebServlet(name = "LoginServlet", value = "/LoginServlet")
+
+/**
+ * Zerbitzarian esaera kudeatu ahal da
+ * Datuak sartu datu bat saioan eskuragarri saioan eskegi
+ * saioan partekatu beharrean testuinguruan (CONTEXT) partekatuz beste erabiltzaileekin partekatu
+ */
+
 public class LoginServlet extends HttpServlet {
 
     private String mezu;
@@ -34,12 +41,16 @@ public class LoginServlet extends HttpServlet {
         String pasahitza = request.getParameter("password");
 
         if (email==null || pasahitza==null){
+
             System.out.println("<--- LoginServlet <--- JSP-ra berbidaltzen");
             RequestDispatcher rd = request.getRequestDispatcher("/jsp/loginForm.jsp");
             rd.forward(request, response);
+
         }else{
+
             String username = mySQLdb.getUsername(email, pasahitza);
-            System.out.println("---LoginSerVlet---> Retrieved data from db: "+username);
+            System.out.println("--->LoginServlet---> Retrieved data from db: "+username);
+
             if(username!=null){
                 System.out.println("<--- LoginServlet <--- Log in ondo");
                 HttpSession session= request.getSession(true);   //Saioa lortu:
@@ -49,26 +60,28 @@ public class LoginServlet extends HttpServlet {
                 System.out.println("\tUser session for " + username + ": " + sessionID);
                 session.setAttribute("username",  username); // saioari username atributu bezela gehitu
 
-                System.out.print("\tGetting loggedin userlist from servlet context: ");
+                //LOGEATUTAKO ERABILTZAILEEN ZERRENDA
+                System.out.print("\t--->LoginServlet--->Getting loggedin userlist from servlet context: ");
                 ServletContext context = request.getServletContext(); // testuingurua (saio guztiek atzipena dute)
                 HashMap<String, String> loggedinUsers = (HashMap) context.getAttribute("loggedin_users");
 
                 if(loggedinUsers == null) { // zerbitzaria abiarazi berri bada (ez erabiltzailerik logeatu)
-                    System.out.println("list is empty");
+
+                    System.out.println("--->LoginServlet---> Loggedin userlist from servlet context is empty");
                     loggedinUsers = new HashMap();
                     loggedinUsers.put(username, sessionID);
+
                 } else { // zerbitzarian erabiltzaileak daude jada
                     if(!loggedinUsers.containsKey(username)) {
-                        System.out.println(username + " is not in the list");
-                        loggedinUsers.put(username,sessionID);
-                    } else {
-                        System.out.println(username + " is already in the list");
-                    }
+                        System.out.println("--->LoginServlet---> "+username + " is not in the list");
+                        loggedinUsers.put(username,sessionID); //Puede ser al reves porq la sessionID no se deberia repetir
+
+                    } else {System.out.println("--->LoginServlet---> "+username + " is already in the list");}
                 }
 
                 // zerrenda testuinguruan gehitu atributu bezela
                 context.setAttribute("loggedin_users", loggedinUsers);
-                System.out.println("\tLoggedin users: " + loggedinUsers.toString());
+                System.out.println("---> LoginServlet---> Loggedin users: " + loggedinUsers.toString());
 
                 System.out.println("---> LoginServlet ---> redirecting to MainServlet");
                 RequestDispatcher rd = context.getNamedDispatcher("MainServlet"); //web.xml fitxategiko <servlet-name>
@@ -79,17 +92,22 @@ public class LoginServlet extends HttpServlet {
                 http_out.println("Login OK!");
                 mezu="Login OK!";
                 request.setAttribute("txarto", mezu);*/
+
             }else if(request.getSession(false)!=null) {
+
                 System.out.println("---> LoginServlet ---> User already logged: redirecting to MainServlet");
                 ServletContext context =request.getServletContext();
                 RequestDispatcher rd= context.getNamedDispatcher("MainServlet");
                 rd.forward(request, response);
+
             }else{
+
                 mezu ="Login ERROR";
                 request.setAttribute("txarto", mezu);
                 System.out.println("<--- LoginServlet <--- pasahitza okerra JSP-ra berbidaltzen");
                 RequestDispatcher rd = request.getRequestDispatcher("/jsp/loginForm.jsp");
                 rd.forward(request, response); //pasatu kontrola jsp-ra baina servlet-a bere exekuzioa amaitzen du
+
             }
         }
         System.out.println("<--- LoginServlet <--- doGet() metodotik ateratzen");
