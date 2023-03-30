@@ -56,9 +56,9 @@ public class MySessionListener implements ServletContextListener, HttpSessionLis
         System.out.println("\tLoggedin users: " + loggedinUsers.toString());
 
         for(Map.Entry<String, String> entry : loggedinUsers.entrySet()) {
-            if(entry.getValue().equals(session.getAttribute("username"))){
+            if(entry.getValue().equals(sessionID)){
                 loggedinUsers.remove(entry.getKey());
-                System.out.println("\tRemoving " + entry.getValue() + " from loggedin users");
+                System.out.println("\tRemoving " + session.getAttribute("username") + " from loggedin users");
                 context.setAttribute("loggedin_users", loggedinUsers);
                 System.out.println("\tLoggedin users: " + loggedinUsers.toString());
                 break;

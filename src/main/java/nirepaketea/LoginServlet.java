@@ -56,11 +56,11 @@ public class LoginServlet extends HttpServlet {
                 if(loggedinUsers == null) { // zerbitzaria abiarazi berri bada (ez erabiltzailerik logeatu)
                     System.out.println("list is empty");
                     loggedinUsers = new HashMap();
-                    loggedinUsers.put(sessionID, username);
+                    loggedinUsers.put(username, sessionID);
                 } else { // zerbitzarian erabiltzaileak daude jada
-                    if(!loggedinUsers.containsKey(sessionID)) {
+                    if(!loggedinUsers.containsKey(username)) {
                         System.out.println(username + " is not in the list");
-                        loggedinUsers.put(sessionID, username);
+                        loggedinUsers.put(username,sessionID);
                     } else {
                         System.out.println(username + " is already in the list");
                     }
